@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Thamjidha T N — Mobile Application Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0D1117;
+    --bg-card:   #161B22;
+    --bg-hover:  #1C2333;
+    --accent:    #4F8EF7;
+    --accent-dim:#2D5FBF;
+    --white:     #F0F6FC;
+    --muted:     #8B949E;
+    --border:    #30363D;
+    --green:     #3FB950;
+    --font-display: 'Syne', sans-serif;
+    --font-body:    'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 clamp(1.5rem, 5vw, 5rem);
+    height: 64px;
+    background: rgba(13,17,23,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  /* ── LAYOUT ── */
+  section {
+    padding: clamp(4rem, 10vw, 7rem) clamp(1.5rem, 8vw, 10rem);
+  }
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(79,142,247,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 820px; }
+  .hero-greeting {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    display: inline-block;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+  }
+  .hero-name {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+    font-family: var(--font-body);
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #3a78e0; transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+  .hero-stack {
+    margin-top: 3.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .hero-stack-label { font-size: 0.8rem; color: var(--muted); }
+  .stack-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .tag {
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  /* ── ABOUT ── */
+  #about { border-top: 1px solid var(--border); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  @media (max-width: 760px) { .about-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .about-heading {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+  }
+  .about-body {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 0.975rem;
+  }
+  .about-body p + p { margin-top: 1rem; }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+  }
+  .stat-number {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 2rem;
+    color: var(--accent);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 0.35rem;
+  }
+  .stat-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ── SKILLS ── */
+  #skills { border-top: 1px solid var(--border); }
+  .skills-heading {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 2.5rem;
+  }
+  .skills-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .skill-group {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .skill-group:hover { border-color: var(--accent); }
+  .skill-group-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.85rem;
+  }
+  .skill-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .skill-list li {
+    font-size: 0.875rem;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .skill-list li::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ── PROJECTS ── */
+  #projects { border-top: 1px solid var(--border); }
+  .projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .projects-heading {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    letter-spacing: -0.02em;
+  }
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.25s, border-color 0.25s;
+    margin-bottom: 1.5rem;
+  }
+  .project-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+
+  /* Project header bar */
+  .project-bar {
+    background: linear-gradient(135deg, #1a2540 0%, #0f1a35 100%);
+    padding: 2rem 2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .project-bar-left {}
+  .project-platform {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: rgba(79,142,247,0.1);
+    border: 1px solid rgba(79,142,247,0.3);
+    padding: 0.25rem 0.65rem;
+    border-radius: 100px;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .project-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+  }
+  .project-company {
+    font-size: 0.83rem;
+    color: var(--muted);
+  }
+  .project-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--green);
+    background: rgba(63,185,80,0.1);
+    border: 1px solid rgba(63,185,80,0.3);
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+
+  /* Project body */
+  .project-body { padding: 1.75rem 2rem; }
+  .project-desc {
+    color: var(--muted);
+    font-size: 0.93rem;
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    max-width: 760px;
+  }
+
+  /* Feature grid */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .feature-item {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+  }
+  .feature-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 0.25rem;
+  }
+  .feature-detail {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* Tech stack row */
+  .project-tech {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+  .tech-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-right: 0.25rem;
+  }
+  .tech-tag {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--accent);
+    background: rgba(79,142,247,0.08);
+    border: 1px solid rgba(79,142,247,0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { border-top: 1px solid var(--border); }
+  .exp-heading {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 2.5rem;
+  }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .exp-item:last-child { border-bottom: none; }
+  @media (max-width: 640px) {
+    .exp-item { grid-template-columns: 1fr; gap: 0.75rem; }
+  }
+  .exp-period { font-size: 0.82rem; color: var(--muted); padding-top: 0.15rem; }
+  .exp-role {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--white);
+    margin-bottom: 0.2rem;
+  }
+  .exp-company {
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-bottom: 0.85rem;
+    font-weight: 500;
+  }
+  .exp-points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .exp-points li {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.6;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .exp-points li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .contact-heading {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  .contact-sub {
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+  .contact-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem clamp(1.5rem, 8vw, 10rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .footer-copy { font-size: 0.8rem; color: var(--muted); }
+  .footer-right { font-size: 0.8rem; color: var(--muted); }
+
+  /* ── MOBILE NAV ── */
+  .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.25rem; }
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .nav-toggle { display: block; }
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Thamjidha<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <p class="hero-greeting">
+      <span class="dot"></span>
+      Available for new opportunities
+    </p>
+    <h1 class="hero-name">Thamjidha T N</h1>
+    <p class="hero-title">Mobile Application Developer</p>
+    <p class="hero-desc">
+      Flutter &amp; Native Android developer with 2+ years of experience building secure, high-performance mobile applications integrated with ERPNext REST APIs. Specialised in translating complex web portals into clean, intuitive mobile experiences.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        View Projects
+      </a>
+      <a href="mailto:thamjidhatn@gmail.com" class="btn btn-outline">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        Get in Touch
+      </a>
+    </div>
+    <div class="hero-stack">
+      <span class="hero-stack-label">Built with</span>
+      <div class="stack-tags">
+        <span class="tag">Flutter</span>
+        <span class="tag">Dart</span>
+        <span class="tag">Kotlin</span>
+        <span class="tag">Frappe REST API</span>
+        <span class="tag">Firebase</span>
+        <span class="tag">Android SDK</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">About me</p>
+  <div class="about-grid">
+    <div>
+      <h2 class="about-heading">Developer who builds things that actually work.</h2>
+      <div class="about-body">
+        <p>I'm a Mobile Application Developer based in Saudi Arabia, with a background in both Native Android (Kotlin/Java) and Flutter cross-platform development. I specialise in integrating mobile frontends with enterprise backends — particularly ERPNext and Frappe — turning complex web portals into clean, intuitive mobile experiences.</p>
+        <p>At INCONS Professional Services LLP, I've built production-grade Flutter apps handling everything from sales invoice automation and tax calculation engines to real-time kitchen order management — all integrated live with ERPNext REST APIs with zero local database dependency.</p>
+        <p>I care about security architecture, clean code structure, and shipping apps that work exactly the way the user expects them to — on the first tap, every time.</p>
+      </div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">2+</div>
+        <div class="stat-desc">Years professional mobile development experience</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">8</div>
+        <div class="stat-desc">Frappe REST API endpoints integrated in production</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">3</div>
+        <div class="stat-desc">Production Flutter screens with full auth &amp; security</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">0</div>
+        <div class="stat-desc">Local database dependency — all data fetched live</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">Technical skills</p>
+  <h2 class="skills-heading">What I work with</h2>
+  <div class="skills-groups">
+    <div class="skill-group">
+      <div class="skill-group-title">Mobile</div>
+      <ul class="skill-list">
+        <li>Flutter &amp; Dart</li>
+        <li>Native Android (Kotlin)</li>
+        <li>Android SDK</li>
+        <li>Material Design 3</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Backend & APIs</div>
+      <ul class="skill-list">
+        <li>Frappe / ERPNext REST API</li>
+        <li>Firebase (Auth, Firestore)</li>
+        <li>Retrofit2</li>
+        <li>REST &amp; HTTP</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Security</div>
+      <ul class="skill-list">
+        <li>Flutter Secure Storage</li>
+        <li>iOS Keychain / Android Keystore</li>
+        <li>CSRF Token Management</li>
+        <li>OAuth2 / Session Auth</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Architecture</div>
+      <ul class="skill-list">
+        <li>MVVM &amp; Modular Architecture</li>
+        <li>Jetpack (ViewModel, LiveData)</li>
+        <li>SafeArgs Navigation</li>
+        <li>Dagger Hilt / Dagger2</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Languages</div>
+      <ul class="skill-list">
+        <li>Dart</li>
+        <li>Kotlin / Java</li>
+        <li>Python</li>
+        <li>SQL (MariaDB / MySQL)</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Tools</div>
+      <ul class="skill-list">
+        <li>Android Studio</li>
+        <li>Git &amp; GitHub</li>
+        <li>Postman</li>
+        <li>Figma</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">Featured work</p>
+  <div class="projects-header">
+    <h2 class="projects-heading">Projects</h2>
+  </div>
+
+  <!-- PROJECT 1: Baguettering -->
+  <div class="project-card">
+    <div class="project-bar">
+      <div class="project-bar-left">
+        <div class="project-platform">
+          <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          Flutter · Android &amp; iOS
+        </div>
+        <div class="project-name">Baguettering Kitchen Orders</div>
+        <div class="project-company">Baguettering Catering Services · INCONS Professional Services LLP</div>
+      </div>
+      <div class="project-status">
+        <span class="status-dot"></span>
+        In Production
+      </div>
+    </div>
+    <div class="project-body">
+      <p class="project-desc">
+        A cross-platform Flutter mobile application that replicates Baguettering Catering Services' Frappe/ERPNext web portal — enabling kitchen staff to browse, create, and manage weekly meal orders entirely from their mobile devices. The app mirrors the website's full workflow: from placing draft orders to tracking status through Pending With Kitchen, Approved, and Preparing stages, with real-time data fetched live from ERPNext with no local database.
+      </p>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-title">Secure Authentication</div>
+          <div class="feature-detail">Session-based login with Flutter Secure Storage (iOS Keychain &amp; Android Keystore). Dynamic CSRF token capture. Passwordless Email Link login via Frappe's send_login_link API.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Order Dashboard</div>
+          <div class="feature-detail">4-status grid (Draft, Pending, Approved, Preparing) with live counts. Month/Year picker with client-side date filtering. Pull-to-refresh and empty state handling.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Change Password</div>
+          <div class="feature-detail">In-app password change using update_password API with current + new + confirm fields. No email required — fully handled within the app.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Security Architecture</div>
+          <div class="feature-detail">No hardcoded API credentials. HTTPS enforcement. Separate read/write headers for CSRF. Sanitized error messages — no raw server tracebacks shown to users.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Navigation Drawer</div>
+          <div class="feature-detail">Side drawer with profile section, My Kitchen Orders, Make an Order, Reset Password, and Logout. ListTile-based for reliable tap detection.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">API Integration</div>
+          <div class="feature-detail">8 Frappe REST endpoints integrated. Owner + workflow_state filters. HttpLogger for structured request/response debugging in debug builds.</div>
+        </div>
+      </div>
+      <div class="project-tech">
+        <span class="tech-label">Stack:</span>
+        <span class="tech-tag">Flutter</span>
+        <span class="tech-tag">Dart</span>
+        <span class="tech-tag">Frappe REST API</span>
+        <span class="tech-tag">ERPNext</span>
+        <span class="tech-tag">Flutter Secure Storage</span>
+        <span class="tech-tag">app_links</span>
+        <span class="tech-tag">HTTP</span>
+        <span class="tech-tag">Android / iOS</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT 2: Manappuram Banking App -->
+  <div class="project-card">
+    <div class="project-bar">
+      <div class="project-bar-left">
+        <div class="project-platform">
+          <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          Native Android · Kotlin
+        </div>
+        <div class="project-name">Banking &amp; Enterprise Android Apps</div>
+        <div class="project-company">Manappuram Comptech and Consultants Limited · India</div>
+      </div>
+      <div class="project-status">
+        <span class="status-dot"></span>
+        Production · Nov 2023 – Oct 2025
+      </div>
+    </div>
+    <div class="project-body">
+      <p class="project-desc">
+        Designed and developed complex enterprise-grade Android banking applications at Manappuram Comptech and Consultants Limited. Focused on security hardening, performance optimisation, and modern Android architecture — delivering robust, reliable solutions used in real financial workflows.
+      </p>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-title">Security Engineering</div>
+          <div class="feature-detail">Fortified banking apps by over 90% through MFA, SSL Pinning, Root/Tamper Detection, and Code Obfuscation — successfully mitigating VAPT vulnerabilities.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">MVVM Architecture</div>
+          <div class="feature-detail">Designed and maintained complex modules using MVVM and Modular App Architecture with unit and functional testing for 100% reliability of delivered solutions.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Location-Based Attendance</div>
+          <div class="feature-detail">Built a location-based attendance system using Android Location Services, validating user coordinates within a 100-metre radius for accurate data capture.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Performance Optimisation</div>
+          <div class="feature-detail">Improved data processing efficiency by 15% through optimised Retrofit2 API integrations and reactive programming patterns using Kotlin Coroutines and Flow.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Digital Onboarding</div>
+          <div class="feature-detail">Streamlined onboarding via Setu API reverse penny drop integration, achieving 75% name-match automation and reducing manual errors by 20%.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-title">Agile &amp; Code Quality</div>
+          <div class="feature-detail">Actively participated in peer code reviews and Agile (Scrum) ceremonies. Delivered high-quality, testable code with detailed documentation for future maintenance.</div>
+        </div>
+      </div>
+      <div class="project-tech">
+        <span class="tech-label">Stack:</span>
+        <span class="tech-tag">Kotlin</span>
+        <span class="tech-tag">Java</span>
+        <span class="tech-tag">MVVM</span>
+        <span class="tech-tag">Jetpack</span>
+        <span class="tech-tag">Retrofit2</span>
+        <span class="tech-tag">Dagger Hilt</span>
+        <span class="tech-tag">Firebase</span>
+        <span class="tech-tag">Kotlin Coroutines</span>
+        <span class="tech-tag">Setu API</span>
+        <span class="tech-tag">SSL Pinning</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screenshot placeholder notice -->
+  <div style="background:var(--bg-card);border:1px dashed var(--border);border-radius:16px;padding:2rem;text-align:center;margin-top:0.5rem;">
+    <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:var(--muted);margin-bottom:0.75rem;display:block;margin-left:auto;margin-right:auto;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+    <p style="font-size:0.875rem;color:var(--muted);margin-bottom:0.25rem;">Flutter app screenshots coming soon</p>
+    <p style="font-size:0.78rem;color:var(--border);">Share your screenshots to display the real app UI here</p>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label">Work history</p>
+  <h2 class="exp-heading">Experience</h2>
+
+  <div class="exp-item">
+    <div class="exp-period">Mar 2026 – Present<br/>Saudi Arabia</div>
+    <div>
+      <div class="exp-role">Flutter Developer</div>
+      <div class="exp-company">INCONS Professional Services LLP</div>
+      <ul class="exp-points">
+        <li>Designed and developed a full-featured cross-platform ERP mobile app using Flutter, integrated with ERPNext via REST API, enabling sales teams to manage invoices and financial data from mobile devices.</li>
+        <li>Built end-to-end Sales Invoice creation and submission workflow including tax calculation, shipping rule injection, and multi-step discount distribution logic mirroring ERPNext's internal calculation engine.</li>
+        <li>Implemented ERPNext's exact tax and discount algorithm in Dart, ensuring mobile preview always matched submitted backend values.</li>
+        <li>Integrated ERPNext OAuth2 authentication with Flutter Secure Storage using Android Keystore and iOS Keychain for enterprise-grade credential management.</li>
+        <li>Built real-time ERPNext sync with zero local database dependency — customers, items, tax templates, and invoices always reflect current backend state.</li>
+        <li>Designed and delivered the Baguettering Kitchen Orders mobile app — replicating a Frappe/ERPNext web portal in Flutter with real-time order management, secure auth, and 8 integrated API endpoints.</li>
+        <li>Delivered role-based permissions viewer, activity/audit log, multi-company invoice filtering, CSV bulk import/export, dynamic searchable forms, and full dark/light mode support.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-period">Nov 2023 – Oct 2025<br/>India</div>
+    <div>
+      <div class="exp-role">Android Developer</div>
+      <div class="exp-company">Manappuram Comptech &amp; Consultants Limited</div>
+      <ul class="exp-points">
+        <li>Designed and maintained complex modules using MVVM and Modular App Architecture with unit and functional testing for 100% reliability.</li>
+        <li>Fortified banking applications by over 90% through MFA, SSL Pinning, and Code Obfuscation, successfully mitigating VAPT vulnerabilities.</li>
+        <li>Built a location-based attendance system using Location Services, validating coordinates within a 100-metre radius.</li>
+        <li>Improved data processing efficiency by 15% through optimised Retrofit API integrations and reactive programming patterns.</li>
+        <li>Streamlined digital onboarding via Setu API reverse penny drop integration, achieving 75% name-match automation and reducing manual errors by 20%.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Get in touch</p>
+  <h2 class="contact-heading">Let's work together</h2>
+  <p class="contact-sub">Open to Flutter &amp; Android opportunities, freelance projects, and collaboration. Feel free to reach out.</p>
+  <div class="contact-links">
+    <a href="mailto:thamjidhatn@gmail.com" class="contact-link">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+      thamjidhatn@gmail.com
+    </a>
+    <a href="tel:+966510089734" class="contact-link">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+      +966 510 089 734
+    </a>
+    <a href="https://www.linkedin.com/in/thamjidha-tn-676375282" target="_blank" class="contact-link">
+      <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      LinkedIn
+    </a>
+    <a href="https://github.com" target="_blank" class="contact-link">
+      <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      GitHub
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">© 2026 Thamjidha T N. All rights reserved.</span>
+  <span class="footer-right">Mobile Application Developer · Flutter &amp; Android</span>
+</footer>
+
+</body>
+</html>
